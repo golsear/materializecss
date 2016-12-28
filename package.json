@@ -1,0 +1,14 @@
+{
+  "name": "lite-server-example",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "\"lite-server\"",
+    "lite": "lite-server"
+  },
+  "dependencies": {
+    "materialize-css": "",
+    "gulp": "",
+    "gulp-sass": "",
+    "gulp-shell": ""
+  }
+}
