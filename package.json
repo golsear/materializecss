@@ -2,13 +2,16 @@
   "name": "lite-server-example",
   "version": "1.0.0",
   "scripts": {
-    "start": "\"lite-server\"",
+    "start": "concurrent \"gulp watch\" \"lite-server\" ",
     "lite": "lite-server"
   },
   "dependencies": {
-    "materialize-css": "",
-    "gulp": "",
-    "gulp-sass": "",
-    "gulp-shell": ""
+    "concurrently": "^2.2.0",
+    "materialize-css": "^0.97.8",
+    "gulp": "^3.0.1",
+    "gulp-sass": "^3.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-uglify": "^2.0.0",
+    "gulp-clean-css": "^2.3.2"
   }
 }
