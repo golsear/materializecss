@@ -8,6 +8,7 @@
   "dependencies": {
     "concurrently": "^2.2.0",
     "materialize-css": "^0.97.8",
+    "chart.js": "^2.4.0",
     "gulp": "^3.0.1",
     "gulp-sass": "^3.0.0",
     "gulp-concat": "^2.6.1",
