@@ -37,13 +37,17 @@
 <div class="container">
     <div class="row">
         <div class="col s12 m8 offset-m2 l6 offset-l3">
-            <canvas id="myChart" width="400" height="400"></canvas>
+            <div style="padding: 30px">
+                <canvas id="myChart" width="400" height="400"></canvas>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
     var ctx = document.getElementById("myChart");
+    var data = [300, 50, 100, 55, 66, 77];
+    var totalValue = getTotalValue(data);
     var myChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
@@ -54,7 +58,7 @@
             ],
             datasets: [
                 {
-                    data: [300, 50, 100],
+                    data: data,
                     backgroundColor: [
                         "#FF6384",
                         "#36A2EB",
@@ -68,9 +72,60 @@
                 }]
         },
         options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            layout: {
+                padding: 30
+            },
+            animation: {
+                animateScale:true,
+                onComplete: function () {console.log("resize");
+                    var radius = myChart.outerRadius;
+                    var chartInstance = this.chart;
+                    var ctx = chartInstance.ctx;
+                    var textSize = ctx.canvas.width/10;
+                    console.log(ctx);
+                    var midX = ctx.canvas.width/2;
+                    var midY = ctx.canvas.height/2
+                    ctx.fillStyle = "red";
 
+                    Chart.helpers.each(this.data.datasets.forEach(function (dataset, i) {
+                        var meta = chartInstance.controller.getDatasetMeta(i);
+                        Chart.helpers.each(meta.data.forEach(function (segment, index) {
+
+                            // Get needed variables
+                            var value = Math.floor(data[index]/totalValue*100)+'%';
+                            var startAngle = segment._model.startAngle;
+                            var endAngle = segment._model.endAngle;
+                            var middleAngle = startAngle + ((endAngle - startAngle)/2);
+
+                            // Compute text location
+                            var posX = (radius) * Math.cos(middleAngle) + midX;
+                            var posY = (radius) * Math.sin(middleAngle) + midY;
+
+                            // Text offside by middle
+                            var w_offset = ctx.measureText(value).width/2;
+                            //w_offset = (Math.cos(middleAngle)) < 0 ? (w_offset + 20) : (w_offset - 20);
+                            //var h_offset = textSize/4;
+                            var h_offset = ctx.measureText(value).width/2;
+                            //h_offset = (Math.sin(middleAngle)) < 0 ? (h_offset - 10) : (h_offset + 10);
+                            ctx.fillText(value, posX - w_offset, posY + h_offset);
+                            //ctx.fillText(value, 0, 0);
+                        }),this)
+                    }),this);
+                }
+
+            },
+            cutoutPercentage: 80
         }
     });
+
+    function getTotalValue(arr) {
+        var total = 0;
+        for(var i=0; i<arr.length; i++)
+            total += arr[i];
+        return total;
+    }
 
     console.log(myChart);
 </script>
